@@ -1,0 +1,517 @@
+-- E164 type regression test SQL script
+SET search_path = public;
+\set ECHO none
+psql:e164.sql:17: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "info_pkey" for table "info"
+psql:e164.sql:17: NOTICE:  CREATE TABLE / UNIQUE will create implicit index "info_installed_at_key" for table "info"
+psql:e164.sql:17: NOTICE:  CREATE TABLE / UNIQUE will create implicit index "info_scm_revision_key" for table "info"
+psql:e164.sql:24: NOTICE:  type "e164" is not yet defined
+DETAIL:  Creating a shell type definition.
+psql:e164.sql:29: NOTICE:  argument type e164 is only a shell
+psql:e164.sql:34: NOTICE:  return type e164 is only a shell
+psql:e164.sql:39: NOTICE:  argument type e164 is only a shell
+SET SEARCH_PATH to public, e164;
+CREATE TABLE telephone_numbers
+(
+    telephone_number e164 PRIMARY KEY
+);
+NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "telephone_numbers_pkey" for table "telephone_numbers"
+COPY telephone_numbers (telephone_number) FROM STDIN;
+SELECT *
+FROM telephone_numbers
+ORDER BY telephone_number;
+ telephone_number 
+------------------
+ +12078652196
+ +13032899913
+ +16094926522
+ +16158551760
+ +17137292424
+ +18007246269
+ +18125224008
+ +18162212045
+ +18162796113
+ +18887355977
+ +19412583400
+ +74956260391
+ +74959808440
+ +74959808441
+ +78122326983
+ +78122328250
+ +78122328260
+ +78123254044
+ +2023366848
+ +2034810166
+ +9123692496
+ +9126410553
+ +9126552802
+ +9128102290
+ +20222686035
+ +20222777000
+ +20225912502
+ +27114314068
+ +27116223170
+ +27117825226
+ +27119491263
+ +81185242051
+ +81188327353
+ +81188361268
+ +81188364224
+ +81762226757
+ +81762412341
+ +441223207072
+ +441223208301
+ +442070342900
+ +442073779923
+ +442085187347
+ +442087782777
+ +442089816811
+ +448456032458
+ +551150557460
+ +552124527106
+ +556233576049
+ +557932173229
+ +559132294022
+ +35312121220
+ +35318572979
+(52 rows)
+
+SELECT *
+FROM telephone_numbers
+ORDER BY CAST(telephone_number AS text);
+ telephone_number 
+------------------
+ +12078652196
+ +13032899913
+ +16094926522
+ +16158551760
+ +17137292424
+ +18007246269
+ +18125224008
+ +18162212045
+ +18162796113
+ +18887355977
+ +19412583400
+ +20222686035
+ +20222777000
+ +20225912502
+ +2023366848
+ +2034810166
+ +27114314068
+ +27116223170
+ +27117825226
+ +27119491263
+ +35312121220
+ +35318572979
+ +441223207072
+ +441223208301
+ +442070342900
+ +442073779923
+ +442085187347
+ +442087782777
+ +442089816811
+ +448456032458
+ +551150557460
+ +552124527106
+ +556233576049
+ +557932173229
+ +559132294022
+ +74956260391
+ +74959808440
+ +74959808441
+ +78122326983
+ +78122328250
+ +78122328260
+ +78123254044
+ +81185242051
+ +81188327353
+ +81188361268
+ +81188364224
+ +81762226757
+ +81762412341
+ +9123692496
+ +9126410553
+ +9126552802
+ +9128102290
+(52 rows)
+
+SELECT telephone_number
+    , is_consistent(telephone_number)
+FROM telephone_numbers
+ORDER BY telephone_number;
+ telephone_number | is_consistent 
+------------------+---------------
+ +12078652196     | t
+ +13032899913     | t
+ +16094926522     | t
+ +16158551760     | t
+ +17137292424     | t
+ +18007246269     | t
+ +18125224008     | t
+ +18162212045     | t
+ +18162796113     | t
+ +18887355977     | t
+ +19412583400     | t
+ +74956260391     | t
+ +74959808440     | t
+ +74959808441     | t
+ +78122326983     | t
+ +78122328250     | t
+ +78122328260     | t
+ +78123254044     | t
+ +2023366848      | t
+ +2034810166      | t
+ +9123692496      | t
+ +9126410553      | t
+ +9126552802      | t
+ +9128102290      | t
+ +20222686035     | t
+ +20222777000     | t
+ +20225912502     | t
+ +27114314068     | t
+ +27116223170     | t
+ +27117825226     | t
+ +27119491263     | t
+ +81185242051     | t
+ +81188327353     | t
+ +81188361268     | t
+ +81188364224     | t
+ +81762226757     | t
+ +81762412341     | t
+ +441223207072    | t
+ +441223208301    | t
+ +442070342900    | t
+ +442073779923    | t
+ +442085187347    | t
+ +442087782777    | t
+ +442089816811    | t
+ +448456032458    | t
+ +551150557460    | t
+ +552124527106    | t
+ +556233576049    | t
+ +557932173229    | t
+ +559132294022    | t
+ +35312121220     | t
+ +35318572979     | t
+(52 rows)
+
+SELECT telephone_number
+    , country_code(telephone_number)
+FROM telephone_numbers
+ORDER BY telephone_number;
+ telephone_number | country_code 
+------------------+--------------
+ +12078652196     | 1
+ +13032899913     | 1
+ +16094926522     | 1
+ +16158551760     | 1
+ +17137292424     | 1
+ +18007246269     | 1
+ +18125224008     | 1
+ +18162212045     | 1
+ +18162796113     | 1
+ +18887355977     | 1
+ +19412583400     | 1
+ +74956260391     | 7
+ +74959808440     | 7
+ +74959808441     | 7
+ +78122326983     | 7
+ +78122328250     | 7
+ +78122328260     | 7
+ +78123254044     | 7
+ +2023366848      | 20
+ +2034810166      | 20
+ +9123692496      | 91
+ +9126410553      | 91
+ +9126552802      | 91
+ +9128102290      | 91
+ +20222686035     | 20
+ +20222777000     | 20
+ +20225912502     | 20
+ +27114314068     | 27
+ +27116223170     | 27
+ +27117825226     | 27
+ +27119491263     | 27
+ +81185242051     | 81
+ +81188327353     | 81
+ +81188361268     | 81
+ +81188364224     | 81
+ +81762226757     | 81
+ +81762412341     | 81
+ +441223207072    | 44
+ +441223208301    | 44
+ +442070342900    | 44
+ +442073779923    | 44
+ +442085187347    | 44
+ +442087782777    | 44
+ +442089816811    | 44
+ +448456032458    | 44
+ +551150557460    | 55
+ +552124527106    | 55
+ +556233576049    | 55
+ +557932173229    | 55
+ +559132294022    | 55
+ +35312121220     | 353
+ +35318572979     | 353
+(52 rows)
+
+SELECT telephone_number < a_telephone_number as lt
+    , telephone_number <= a_telephone_number as le
+    , telephone_number = a_telephone_number as eq
+    , telephone_number >= a_telephone_number as ge
+    , telephone_number > a_telephone_number as gt
+    , telephone_number <> a_telephone_number as ne
+FROM telephone_numbers
+CROSS JOIN (SELECT CAST('+442073779923' AS e164)) AS a(a_telephone_number)
+ORDER BY telephone_number;
+ lt | le | eq | ge | gt | ne 
+----+----+----+----+----+----
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ f  | t  | t  | t  | t  | f
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+(52 rows)
+
+SELECT telephone_number < a_telephone_number as lt
+    , telephone_number <= a_telephone_number as le
+    , telephone_number = a_telephone_number as eq
+    , telephone_number >= a_telephone_number as ge
+    , telephone_number > a_telephone_number as gt
+    , telephone_number <> a_telephone_number as ne
+FROM telephone_numbers
+CROSS JOIN (SELECT CAST('+442073779923' AS e164)) AS a(a_telephone_number)
+ORDER BY telephone_number;
+ lt | le | eq | ge | gt | ne 
+----+----+----+----+----+----
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ t  | t  | f  | f  | t  | t
+ f  | t  | t  | t  | t  | f
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+ f  | f  | f  | t  | f  | t
+(52 rows)
+
+CREATE INDEX telephone_number_hash_idx
+ON telephone_numbers USING hash
+(telephone_number) ;
+DROP TABLE telephone_numbers;
+-- Invalid input strings
+-- non-numeric characters in string
+SELECT CAST('+1234567890a' AS e164);
+ERROR:  invalid E164 number format: "+1234567890a"
+HINT:  E164 numbers begin with a "+" followed by digits.
+SELECT CAST('+a' AS e164);
+ERROR:  string too short "+a"
+HINT:  E164 numbers must have at least 2 digits.
+-- leading or trailing whitespace
+SELECT CAST(' +1234567890' AS e164);
+ERROR:  invalid E164 prefix: " +1234567890"
+HINT:  E164 numbers must begin with "+".
+SELECT CAST('+1234567890 ' AS e164);
+ERROR:  invalid E164 number format: "+1234567890 "
+HINT:  E164 numbers begin with a "+" followed by digits.
+SELECT CAST(' +1234567890 ' AS e164);
+ERROR:  invalid E164 prefix: " +1234567890 "
+HINT:  E164 numbers must begin with "+".
+-- no prefix
+SELECT CAST('1234567890' AS e164);
+ERROR:  invalid E164 prefix: "1234567890"
+HINT:  E164 numbers must begin with "+".
+-- too short for e164
+SELECT CAST('+1' AS e164);
+ERROR:  string too short "+1"
+HINT:  E164 numbers must have at least 2 digits.
+-- too long for e164
+SELECT CAST('+12345678901234567890' AS e164);
+ERROR:  string too long: "+12345678901234567890"
+HINT:  E164 values must have at most 15 digits.
+-- unassigned country codes
+-- 0 is reserved
+SELECT CAST('+01234567890' AS e164);
+ERROR:  unassigned country code for E164 number "+01234567890"
+-- 280 is Spare with Note
+SELECT CAST('+280123456' AS e164);
+ERROR:  unassigned country code for E164 number "+280123456"
+-- 295 is Spare without Note
+SELECT CAST('+295123456' AS e164);
+ERROR:  unassigned country code for E164 number "+295123456"
+-- inconsistent length and country code (subscriber number minimum lengths)
+-- Geographic Area and Global Service numbers require a subscriber number
+-- of at least one digit. As *all* E164 numbers must have a subscriber
+-- number of at least one digit, Geographic Area and Global Service numbers
+-- without subscriber numbers will be invalid in general and not raise
+-- this specific error.
+-- Geographic Area: minimum 1 digit
+-- '+1' should actually be caught as a minimum length error before this
+SELECT CAST('+1' AS e164);
+ERROR:  string too short "+1"
+HINT:  E164 numbers must have at least 2 digits.
+SELECT CAST('+11' AS e164);
+ e164 
+------
+ +11
+(1 row)
+
+-- These should raise no subscriber number digit errors
+SELECT CAST('+81' AS e164);
+ERROR:  no subscriber number digits in E164 number "+81"
+SELECT CAST('+811' AS e164); -- okay
+ e164 
+------
+ +811
+(1 row)
+
+SELECT CAST('+220' AS e164);
+ERROR:  no subscriber number digits in E164 number "+220"
+SELECT CAST('+2201' AS e164); -- okay
+ e164  
+-------
+ +2201
+(1 row)
+
+-- Global Service: minimum 1 digit
+SELECT CAST('+800' AS e164);
+ERROR:  no subscriber number digits in E164 number "+800"
+SELECT CAST('+808' AS e164);
+ERROR:  no subscriber number digits in E164 number "+808"
+SELECT CAST('+8001' AS e164); -- okay
+ e164  
+-------
+ +8001
+(1 row)
+
+SELECT CAST('+8081' AS e164); -- okay
+ e164  
+-------
+ +8081
+(1 row)
+
+-- Inconsistent Group of Countries and Network numbers should raise
+-- inconsistent E164 number
+-- Group of Countries: minimum 2 digits
+SELECT CAST('+3881' AS e164);
+ERROR:  inconsistent length and country code: "+3881"
+SELECT CAST('+38812' AS e164); -- okay
+  e164  
+--------
+ +38812
+(1 row)
+
+SELECT CAST('+3882' AS e164);
+ERROR:  inconsistent length and country code: "+3882"
+SELECT CAST('+38822' AS e164); -- okay
+  e164  
+--------
+ +38822
+(1 row)
+
+-- Network: minimum 2 digits
+SELECT CAST('+8701' AS e164);
+ERROR:  inconsistent length and country code: "+8701"
+SELECT CAST('+87019' AS e164); -- okay
+  e164  
+--------
+ +87019
+(1 row)
+
+SELECT CAST('+8711' AS e164);
+ERROR:  inconsistent length and country code: "+8711"
+SELECT CAST('+87119' AS e164); -- okay
+  e164  
+--------
+ +87119
+(1 row)
+
